@@ -6,16 +6,17 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     libsndfile1 \
     ffmpeg \
+    wget \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Download Veena TTS Lite model (Hindi)
+# Download Piper TTS Hindi model (hi_IN-pratham-medium)
 RUN mkdir -p /app/models \
- && wget https://huggingface.co/ai4bharat/veena-tts/resolve/main/hi_IN-veena-medium.onnx?download=true -O /app/models/hi_IN-veena-medium.onnx \
- && wget https://huggingface.co/ai4bharat/veena-tts/resolve/main/hi_IN-veena-medium.onnx.json?download=true -O /app/models/hi_IN-veena-medium.onnx.json
+ && wget https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/hi/hi_IN/pratham/medium/hi_IN-pratham-medium.onnx?download=true -O /app/models/hi_IN-pratham-medium.onnx \
+ && wget https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/hi/hi_IN/pratham/medium/hi_IN-pratham-medium.onnx.json?download=true -O /app/models/hi_IN-pratham-medium.onnx.json
 
 # Copy application code
 COPY . .
