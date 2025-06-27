@@ -3,6 +3,7 @@ from io import BytesIO
 import logging
 import tempfile
 import os
+import wave
 from piper import PiperVoice
 from indicnlp.tokenize import indic_tokenize
 
@@ -12,15 +13,15 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Load Veena TTS Lite model
+# Load Piper TTS Hindi model
 try:
     voice = PiperVoice.load(
-        model_path='/app/models/hi_IN-veena-medium.onnx',
-        config_path='/app/models/hi_IN-veena-medium.onnx.json'
+        model_path='/app/models/hi_IN-pratham-medium.onnx',
+        config_path='/app/models/hi_IN-pratham-medium.onnx.json'
     )
-    logger.info("Veena TTS model loaded successfully")
+    logger.info("Piper TTS Hindi model (hi_IN-pratham-medium) loaded successfully")
 except Exception as e:
-    logger.error(f"Failed to load Veena TTS: {e}")
+    logger.error(f"Failed to load Piper TTS: {e}")
     raise
 
 # Text preprocessing for Hindi
@@ -66,7 +67,7 @@ def generate_audio(text):
 def index():
     logger.info("Accessing home route")
     return '''
-    <h2>✅ Veena TTS Ready</h2>
+    <h2>✅ Piper TTS Hindi Ready</h2>
     <p>Use <code>GET /output?text=हेलो+यह+एक+टेस्ट+है</code> to download/play audio.</p>
     <p>Or <code>POST /generate</code> with JSON body {"text": "हेलो यह एक टेस्ट है"}</p>
     <p>Try <a href="/output">/output</a> for a test audio.</p>
